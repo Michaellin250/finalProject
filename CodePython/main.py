@@ -43,6 +43,9 @@ for k in range(numDataPoints):
     estimatedPosition_x[k] = x
     estimatedPosition_y[k] = y
     estimatedAngle[k] = theta
+
+    #if k > 10:
+     #   break
     
 
 print('Done running')
