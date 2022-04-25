@@ -61,7 +61,11 @@ def estRun(time, dt, internalStateIn, steeringAngle, pedalSpeed, measurement):
                     [0, 0, 0, (5*w/B)*np.tan(gamma), - (5*r*w/(B**2))*np.tan(gamma)], 
                     [0, 0, 0, 1, 0], 
                     [0, 0, 0, 0, 1]])
-    L = np.eye(2)
+    L = np.matrix([[0, 0], 
+                    [0, 0]
+                    [0, 0], 
+                    [1, 0], 
+                    [0, 1]])
 
     x_p = np.matrix([[5*w*r*np.cos(theta)], 
                     [5*w*r*np.sin(theta)], 
