@@ -16,14 +16,21 @@ def estInitialize():
     # x, y; the angle theta; and our favorite color. 
     x = 0
     y = 0
-    theta = 0
+    theta = 0 #North East
+    r = 0.425
+    B = 0.8
+    P_m = np.eye(5)
+
     color = 'green' 
     # note that there is *absolutely no prescribed format* for this internal state.
     # You can put in it whatever you like. Probably, you'll want to keep the position
     # and angle, and probably you'll remove the color.
     internalState = [x,
                      y,
-                     theta, 
+                     theta,
+                     r, 
+                     B,
+                     P_m,
                      color
                      ]
 
