@@ -47,7 +47,7 @@ def estRun(time, dt, internalStateIn, steeringAngle, pedalSpeed, measurement):
 
         newMeasurement = True
         z = np.matrix([[measurement[0]], 
-                        measurement[1]])
+                        [measurement[1]]])
 
 
 
@@ -62,14 +62,16 @@ def estRun(time, dt, internalStateIn, steeringAngle, pedalSpeed, measurement):
                     [0, 0, 0, 1, 0], 
                     [0, 0, 0, 0, 1]])
     L = np.matrix([[0, 0], 
-                    [0, 0]
+                    [0, 0],
                     [0, 0], 
                     [1, 0], 
                     [0, 1]])
 
     x_p = np.matrix([[5*w*r*np.cos(theta)], 
                     [5*w*r*np.sin(theta)], 
-                    [(5*w*r/B)*np.tan(gamma)]])
+                    [(5*w*r/B)*np.tan(gamma)], 
+                    [r], 
+                    [B]])
 
     P_p = A @ P_m @ A.T + L @ Sigma_vv @ L.T
 
@@ -89,7 +91,7 @@ def estRun(time, dt, internalStateIn, steeringAngle, pedalSpeed, measurement):
         M = np.eye(2)
 
         K = P_p @ H.T @ np.linalg.inv(H @ P_p @ H.T + M @ Sigma_ww @ M.T)
-
+        
         x_m = x_p + K @ (z - h)
         
         P_m = (np.eye(5) - K @ H) @ P_p
