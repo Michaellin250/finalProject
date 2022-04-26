@@ -33,7 +33,6 @@ def estRun(time, dt, internalStateIn, steeringAngle, pedalSpeed, measurement):
     myColor = internalStateIn[6]
     w = pedalSpeed
     gamma = steeringAngle
-
     #remove
     # x = x + pedalSpeed
     # y = y + pedalSpeed
@@ -53,7 +52,6 @@ def estRun(time, dt, internalStateIn, steeringAngle, pedalSpeed, measurement):
 
 
     #Prediction step
-
     Sigma_vv = np.matrix([[0.02125**2, 0], 
                         [0, 0.08**2]])
 
@@ -67,12 +65,14 @@ def estRun(time, dt, internalStateIn, steeringAngle, pedalSpeed, measurement):
                     [0, 0], 
                     [1, 0], 
                     [0, 1]])
+    
 
-    x_p = np.eye(5) + dt*np.matrix([[5*w*r*np.cos(theta)], 
+    x_m = np.matrix([x, y, theta, r, B,]).T
+    x_p = x_m + dt*np.matrix([[5*w*r*np.cos(theta)], 
                     [5*w*r*np.sin(theta)], 
                     [(5*w*r/B)*np.tan(gamma)], 
-                    [r], 
-                    [B]])
+                    [0], 
+                    [0]])
 
     P_p = A @ P_m @ A.T + L @ Sigma_vv @ L.T
 
@@ -81,10 +81,16 @@ def estRun(time, dt, internalStateIn, steeringAngle, pedalSpeed, measurement):
 
     #Measurement update
     if(newMeasurement):
+
+        x = x_p[0, 0]
+        y = x_p[1, 0]
+        theta = x_p[2, 0]
+        r = x_p[3, 0]
+        B = x_p[4, 0]
         Sigma_ww = np.matrix([[1, 0], 
                             [0, 1]])  #don't know what this should be
 
-        h = np.matrix([[ x + (1/2)*B*np.cos(theta)], 
+        h = np.matrix([[x + (1/2)*B*np.cos(theta)], 
                         [y + (1/2)*B*np.sin(theta)]])
         
         H = np.matrix([[1, 0, -(1/2)*B*np.sin(theta), 0, (1/2)*np.cos(theta)], 
