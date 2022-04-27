@@ -14,12 +14,12 @@ def estInitialize():
 
     #we make the internal state a list, with the first three elements the position
     # x, y; the angle theta; and our favorite color. 
-    x = 0
-    y = 0
+    x = 2
+    y = -10
     theta = np.pi/4 #North East
     r = 0.425
     B = 0.8
-    P_m = 0.01*np.matrix([[1, 0, 0, 0, 0], 
+    P_m = 1*np.matrix([[1, 0, 0, 0, 0], 
                     [0, 1, 0, 0, 0],
                     [0, 0, 1, 0, 0],
                     [0, 0, 0, 1, 0],
@@ -39,8 +39,8 @@ def estInitialize():
                      ]
 
     # replace these names with yours. Delete the second name if you are working alone.
-    studentNames = ['Bart Simpson',
-                    'Lisa Simpson']
+    studentNames = ['Michael Lin',
+                    'Svein Jostein Husa']
     
     # replace this with the estimator type. Use one of the following options:
     #  'EKF' for Extended Kalman Filter
