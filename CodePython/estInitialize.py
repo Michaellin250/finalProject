@@ -19,11 +19,11 @@ def estInitialize():
     theta = np.pi/4 #North East
     r = 0.425
     B = 0.8
-    P_m = np.matrix([[0.01, 0, 0, 0, 0], 
-                    [0, 0.01, 0, 0, 0],
-                    [0, 0, 0.01, 0, 0],
-                    [0, 0, 0, 0.01, 0],
-                    [0, 0, 0, 0, 0.01]])
+    P_m = 0.01*np.matrix([[1, 0, 0, 0, 0], 
+                    [0, 1, 0, 0, 0],
+                    [0, 0, 1, 0, 0],
+                    [0, 0, 0, 1, 0],
+                    [0, 0, 0, 0, 1]])
 
     color = 'green' 
     # note that there is *absolutely no prescribed format* for this internal state.

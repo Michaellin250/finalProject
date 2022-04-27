@@ -52,31 +52,34 @@ def estRun(time, dt, internalStateIn, steeringAngle, pedalSpeed, measurement):
 
 
     #Prediction step
-    Sigma_vv = np.matrix([[0.02125**2, 0], 
-                        [0, 0.08**2]])
+    Sigma_vv = np.matrix([[0.01, 0, 0, 0, 0], 
+                        [0, 0.01, 0, 0, 0],
+                        [0, 0, 0.01, 0, 0],
+                        [0, 0, 0, 0.00000001, 0], 
+                        [0, 0, 0, 0, 0.0000001]])
 
-    A = np.eye(5) + dt*np.matrix([[0, 0, -5*r*w*np.sin(theta), 5*w*np.cos(theta), 0], 
-                    [0, 0, 5*r*w*np.cos(theta), 5*w*np.sin(theta), 0], 
-                    [0, 0, 0, (5*w/B)*np.tan(gamma), - (5*r*w/(B**2))*np.tan(gamma)], 
+    A = np.eye(5) + dt*np.matrix([[0, 0, -5*r*w*np.sin(theta), 0, 0], 
+                    [0, 0, 5*r*w*np.cos(theta), 0, 0],
+                    [0, 0, 0, 0, 0],
                     [0, 0, 0, 1, 0], 
                     [0, 0, 0, 0, 1]])
-    L = dt*np.matrix([[0, 0], 
-                    [0, 0],
-                    [0, 0], 
-                    [1, 0], 
-                    [0, 1]])
+    L = dt*np.matrix([[1, 0, 0, 0, 0], 
+                    [0, 1, 0, 0, 0],
+                    [0, 0, 1, 0, 0], 
+                    [0, 0, 0, 1, 0], 
+                    [0,0, 0, 0, 1]])
     
 
     x_m = np.matrix([x, y, theta, r, B,]).T
     x_p = x_m + dt*np.matrix([[5*w*r*np.cos(theta)], 
-                    [5*w*r*np.sin(theta)], 
-                    [(5*w*r/B)*np.tan(gamma)], 
-                    [0], 
-                    [0]])
+                            [5*w*r*np.sin(theta)], 
+                            [(5*w*r/B)*np.tan(gamma)], 
+                            [0], 
+                            [0]])
 
     P_p = A @ P_m @ A.T + L @ Sigma_vv @ L.T
 
-
+    #print(P_p)
 
 
     #Measurement update
@@ -87,14 +90,14 @@ def estRun(time, dt, internalStateIn, steeringAngle, pedalSpeed, measurement):
         theta = x_p[2, 0]
         r = x_p[3, 0]
         B = x_p[4, 0]
-        Sigma_ww = np.matrix([[1, 0], 
+        Sigma_ww = 0.1*np.matrix([[1, 0], 
                             [0, 1]])  #don't know what this should be
 
         h = np.matrix([[x + (1/2)*B*np.cos(theta)], 
                         [y + (1/2)*B*np.sin(theta)]])
         
-        H = np.matrix([[1, 0, -(1/2)*B*np.sin(theta), 0, (1/2)*np.cos(theta)], 
-                        [0, 1, (1/2)*B*np.cos(theta), 0, (1/2)*np.sin(theta)]])
+        H = np.matrix([[1, 0, -(1/2)*B*np.sin(theta), 0, 0],
+                        [0, 1, (1/2)*B*np.cos(theta), 0, 0]])
         M = np.eye(2)
 
         K = P_p @ H.T @ np.linalg.inv(H @ P_p @ H.T + M @ Sigma_ww @ M.T)
@@ -107,8 +110,8 @@ def estRun(time, dt, internalStateIn, steeringAngle, pedalSpeed, measurement):
         x_m = x_p
         P_m = P_p
 
-
- 
+    #print("x_p",x_p)
+    #print("x_m", x_m)
     x = x_m[0, 0]
     y = x_m[1, 0]
     theta = x_m[2, 0]

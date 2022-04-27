@@ -9,7 +9,7 @@ from estInitialize import estInitialize
 
 #provide the index of the experimental run you would like to use.
 # Note that using "0" means that you will load the measurement calibration data.
-experimentalRun = 1
+experimentalRun = 2
 
 print('Loading the data file #', experimentalRun)
 experimentalData = np.genfromtxt ('data/run_{0:03d}.csv'.format(experimentalRun), delimiter=',')
@@ -44,8 +44,8 @@ for k in range(numDataPoints):
     estimatedPosition_y[k] = y
     estimatedAngle[k] = theta
 
-    # if k > 10:
-    #    break
+    if k > 1000:
+       break
     
 
 print('Done running')
@@ -80,6 +80,8 @@ if not np.isnan(score):
 # make some plots:
 #===============================================================================
 #feel free to add additional plots, if you like.
+print("B", internalState[4])
+print("r", internalState[3])
 print('Generating plots')
 
 figTopView, axTopView = plt.subplots(1, 1)
