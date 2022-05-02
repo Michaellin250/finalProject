@@ -52,11 +52,11 @@ def estRun(time, dt, internalStateIn, steeringAngle, pedalSpeed, measurement):
 
 
     #Prediction step
-    Sigma_vv = np.matrix([[0.005, 0, 0, 0, 0], 
-                        [0, 0.005, 0, 0, 0],
+    Sigma_vv = np.matrix([[0.05, 0, 0, 0, 0], 
+                        [0, 0.05, 0, 0, 0],
                         [0, 0, 0.07, 0, 0],
-                        [0, 0, 0, 0.1, 0], 
-                        [0, 0, 0, 0, 0.1]])
+                        [0, 0, 0, 0.01, 0], 
+                        [0, 0, 0, 0, 0.01]])
 
     A = np.eye(5) + dt*np.matrix([[0, 0, -5*r*w*np.sin(theta), 0, 0], 
                     [0, 0, 5*r*w*np.cos(theta), 0, 0],
