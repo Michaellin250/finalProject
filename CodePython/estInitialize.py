@@ -11,31 +11,25 @@ def estInitialize():
     # The second returned variable must be a list of student names.
     # 
     # The third return variable must be a string with the estimator type
-
-    #we make the internal state a list, with the first three elements the position
-    # x, y; the angle theta; and our favorite color. 
-    x = 2
-    y = -10
+    
+    # Inital chosen state values based in information in the project doc
+    x = 0
+    y = 0
     theta = np.pi/4 #North East
-    r = 0.425
-    B = 0.8
-    P_m = 1*np.matrix([[1, 0, 0, 0, 0], 
+    r = 0.425 #nominal vaule
+    B = 0.8 #nominal value
+    P_m = np.matrix([[1, 0, 0, 0, 0], 
                     [0, 1, 0, 0, 0],
                     [0, 0, 1, 0, 0],
                     [0, 0, 0, 1, 0],
                     [0, 0, 0, 0, 1]])
 
-    color = 'green' 
-    # note that there is *absolutely no prescribed format* for this internal state.
-    # You can put in it whatever you like. Probably, you'll want to keep the position
-    # and angle, and probably you'll remove the color.
     internalState = [x,
                      y,
                      theta,
                      r, 
                      B,
                      P_m,
-                     color
                      ]
 
     # replace these names with yours. Delete the second name if you are working alone.
